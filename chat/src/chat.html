@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+    function getParameterByName(name) {
+  var match = RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+}
+
+$(function() {
+  var socket = io("http://localhost:3332");
+  // var socket = io("http://45.118.134.111:3332");
+  // var socket = io("https://chat.helloyuna.io");
+  var agent = getParameterByName("agent") || "yuna";
+  // var agent = {
+  //   id: getParameterByName('agent') || "default",
+  // }
+  var user = {
+    id: getParameterByName("user") || "arif",
+    firstName: getParameterByName("firstName") || "arif",
+    credential:
+      getParameterByName("credential") ||
+      "041b4f4a363022af5ae3d491c7157538586a0464"
+  };
+  // var username = getParameterByName('user') || "djibon";
+  $("form").submit(function() {
+    console.log(agent, user);
+    socket.emit("chat_message", $("#m").val(), agent, user);
+    $("#m").val("");
+    return false;
+  });
+
+  socket.on("greeting-from-server", function() {
+    socket.emit("join-room", agent, user.id);
+    // socket.emit('get-chat',agent.id, user.id);
+    //socket.emit('get-chats',user.id);
+    socket.emit("auto-greet", agent, user);
+  });
+  socket.on("chat_message", function(msg) {
+    console.log(msg);
+    $("#messages").append($("<li>").text(msg));
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+});
+</script>
+  </body>
+</html>
