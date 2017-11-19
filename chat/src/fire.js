@@ -3,12 +3,12 @@ import  "firebase/firestore"
 
 
 const config = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DB_URI,
+  apiKey: "AIzaSyAPGJ5M8p8zZNfbezEqZWCZK9P2GsSfFDY",
+  authDomain: "firechat-99c4c.firebaseapp.com",
+  databaseURL: 'https://firechat-99c4c.firebaseio.com',
   projectId: "firechat-99c4c",
-  storageBucket: process.env.S_BUCKET,
-  messagingSenderId: process.env.MESS_ID
+  storageBucket: 'firechat-99c4c.appspot.com',
+  messagingSenderId: '409526158555'
 };
 
 const fire = firebase.initializeApp(config);
