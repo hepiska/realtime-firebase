@@ -40,14 +40,14 @@ const Header = styled.div`
 	align-items:center;
 	padding:10px 20px;
 `
-// const ChatList = styled.div`
-// 	width:100%;
-// 	height: 50%;
-// 	background:#75B1C7;
-// 	justify-content:center;
-// 	align-items:center;
-// 	padding:10px 20px;
-// `
+const ChatListContainer = styled.div`
+	width:100%;
+	height: 550px;
+	overflow-y:scroll;
+	justify-content:center;
+	align-items:center;
+	padding:10px 20px;
+`
 const Title = styled.h3`
 	font-size : 30;
 	margin:0
@@ -86,6 +86,7 @@ class MainChat extends Component {
 			.doc(this.props.selectedRoom)
 			.collection('chat').doc().set(data)
 		}
+		this.setState({chat:''})
 	}
 
 
@@ -129,14 +130,17 @@ class MainChat extends Component {
 							</UserHeader>) :
 							(<p>no chat room selected</p>)
 						}
+						<ChatListContainer>
 						{this.props.selectedRoom !== '' ? (
-							<ChatList selectedRoom={this.props.selectedRoom }/>
+							<ChatList key={this.props.selectedRoom} selectedRoom={this.props.selectedRoom }/>
 						) :
 							(<p>no chat room selected</p>)
 						}
+					</ChatListContainer>
 						<InputContainer>
 				        <Input placeholder='chat..' fluid
 									onKeyPress = {this.onEnter}
+									value= {this.state.chat}
 									onChange = {(event) => { this.setState({chat:event.target.value}) }}
 									style={{width:'80%'}}/>
 				        <Button primary style={{flex:2}} onClick = {this.handleClick}>send</Button>

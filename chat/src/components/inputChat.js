@@ -12,7 +12,7 @@ const Container = styled.div`
 const ChatInput = (props) => {
   return(
     <Container>
-        <Input placeholder='chat..' fluid style={{width:'80%'}}/>
+        <Input placeholder='chat..' fluid style={{width:'80%'}} value= {props.value}/>
         <Button primary style={{flex:2}}>send</Button>
     </Container>
   )

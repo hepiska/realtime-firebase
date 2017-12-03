@@ -10,24 +10,26 @@ class ChatList extends Component {
   constructor(props){
     super(props)
     this.state={
+      selectedRoom:this.props.selectedRoom,
       chats:[]
     }
   }
-  componentWillUpdate(){
-      db.collection('chatRoom')
-      .doc(this.props.selectedRoom)
-      .collection('chat').orderBy('createdAt','asc')
-      .onSnapshot(docs => {
-        const newChats = []
-          docs.forEach( doc => {
-            newChats.push(doc.data())
-          })
-          this.setState({chats:newChats})
-      })
+
+  componentDidMount(){
+    db.collection('chatRoom')
+    .doc(this.state.selectedRoom)
+    .collection('chat').orderBy('createdAt','asc')
+    .onSnapshot(docs => {
+      const newChats = []
+        docs.forEach( doc => {
+          newChats.push(doc.data())
+        })
+        this.setState({chats:newChats})
+    })
   }
   render(){
     return(
-    <div style={{display:'flex',width:'100%',flexDirection:'column'}}>
+    <div ref={el => { this.messageList = el; }}style={{display:'flex',width:'100%',flexDirection:'column'}}>
       {
         this.state.chats.map((chat,index) => {
           return (
