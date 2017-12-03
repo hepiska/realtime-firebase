@@ -13,7 +13,7 @@ class ChatList extends Component {
       chats:[]
     }
   }
-  componentWillMount(){
+  componentWillUpdate(){
       db.collection('chatRoom')
       .doc(this.props.selectedRoom)
       .collection('chat').orderBy('createdAt','asc')

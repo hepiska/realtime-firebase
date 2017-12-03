@@ -72,7 +72,6 @@ class MainChat extends Component {
 	}
 
 	handleClick = () => {
-		console.log(localStorage.getItem('user'));
 		const user = this.state.members.filter(member => member.email === localStorage.getItem('user'))
 		console.log(this.state.members);
 		const data = {

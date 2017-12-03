@@ -47,12 +47,12 @@ class MainPage extends Component {
 			docs.forEach(doc => {
 					chatRooms.push(doc.data())
 			})
-			this.props.updateChatRoomFromDb(chatRooms)
+			console.log(chatRooms);
+			this.props.updateChatRoomFromDb(chatRooms.filter(chatRoom => chatRoom.name.includes(localStorage.getItem('user'))))
 			console.log('ChatRooms',chatRooms);
 		})
 	}
 	render() {
-		console.log(this.state.selectedRoom);
 		if (localStorage.getItem('user')) {
 			return (
 				<div>

@@ -1,10 +1,10 @@
 import React,{Component} from 'react'
 import styled from "styled-components"
-import { Image } from 'semantic-ui-react'
+import { Image, Button } from 'semantic-ui-react'
 import fire from '../fire'
 
 const Container = styled.div`
-  height:100px;
+  height:120px;
   display:flex;
   width:100%;
   flex-direction:column;
@@ -22,11 +22,11 @@ const ImageContainer =styled.div`
   margin-right:10px;
 `
 const Title = styled.div`
-  height:30px;
+  height:40px;
   width:100%;
   display:flex;
   flex-direction:row;
-  justify-content:center;
+  justify-content:space-between;
   align-items:center;
   background:grey;
 
@@ -48,7 +48,6 @@ class ChatRoomCard extends  Component {
     }
   }
   componentWillMount(){
-    console.log('this.props.id');
     this.props.id.split(",").forEach(id => {
       db.collection('user').doc(id)
       .get().then(user => {
@@ -62,15 +61,26 @@ class ChatRoomCard extends  Component {
       })
     })
   }
+  deleteRoom(id) {
+    db.collection('chatRoom').doc(id)
+    .delete().then(() => {
+      alert('delete chatRoom success')
+    }).catch(() => {
+      alert('delete chatRoom fail')
+    })
+  }
   render() {
     const {members} = this.state
     if (members.length > 0) {
       return (
         <Container id = {this.props.id} onClick = {this.props.onClick}>
           <Title id = {this.props.id}>
+            <div style={{ flexDirection:'row',display:'flex'}}>
             {members.map((member,index) => (
               <p style={{margin:0}}key={index}>{member.userName},</p>
             ))}
+          </div>
+            <Button circular icon='close' basic onClick={() => this.deleteRoom(this.props.id)} />
           </Title>
           <ImageList id = {this.props.id}>
             {members.map((member,index) => (
